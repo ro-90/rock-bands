@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <% bandas.forEach(grupo => {  %>
+        <div>
+            <h2><%= grupo.nombre %></h2>
+            <a href="/bandas/detail/<%= grupo.id %>">
+                <img src="/<%= grupo.cover %>" alt="Se muestra la imagen de la banda <%= grupo.nombre %>">
+            </a>
+        </div>
+    <%  }); %>
+</body>
+</html>

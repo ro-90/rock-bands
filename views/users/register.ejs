@@ -8,7 +8,7 @@
                 <p><%= errores.all %></p>
             <% } %>
             <label for="name">Nombre</label>
-            <input type="text" name="nombre" id="name" required min="6" max="50" value="<%= locals.nombre ? nombre : "" %>" >
+            <input type="text" name="nombre" id="name" min="6" max="50" value="<%= locals.nombre ? nombre : "" %>" >
             <% if(locals.errores) {%>
                 <p><%= errores.nombre %></p>
             <% } %>
@@ -21,7 +21,7 @@
             <% } %>
             
             <label for="password">Contraseña</label>
-            <input type="password" name="contrasena" id="password" required value="<%= locals.contrasena ? contrasena : ""%>" >
+            <input type="password" name="contrasena" id="password" value="<%= locals.contrasena ? contrasena : ""%>" >
             
             <% if(locals.errores) {%>
                 <p><%= errores.contrasena %></p>

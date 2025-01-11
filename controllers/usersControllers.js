@@ -1,68 +1,65 @@
-const fs = require("fs");
 const path = require("path");
 const directory = path.join(__dirname, "../db/users.json");
-const {validationResult} = require('express-validator');
-const getUsers = () => {
-  return JSON.parse(fs.readFileSync(directory, "utf-8"));
-};
+const { validationResult } = require("express-validator");
+const {
+  readFile,
+  writeFile,
+  parseFile,
+  stringifyFile,
+} = require("../utils/filesystem");
 
+const users = parseFile(readFile(directory));
 
 const usersControllers = {
-  login: (req, res) => {},
+  login: (req, res, next) => {
+    res.render("users/login", { title: "Login" });
+  },
+  processLogin: (req, res, next) => {
+    const { correo } = req.body;
+    const errores = validationResult(req);
+    if(errores.array().length > 0){
+      res.render("users/login", {
+        errores: errores.mapped(),
+        correo
+      });
+    }else{
+      const user = users.find(user => user.correo === correo);
+      const {nombre} = user;
+      req.session.user = {correo, nombre};
+      res.cookie("user", req.session.user, {maxAge: 1000 * 60 * 60 * 12});
+      res.redirect("/users/profile");
+    }
+
+  },
   register: function (req, res, next) {
     res.render("users/register", { title: "registro de usuario" });
   },
   store: function (req, res, next) {
-    // const { nombre, correo, contrasena } = req.body;
-    // const errores = {};
-
     try {
-    //   const users = getUsers();
-      
-    //   if (!nombre || !correo || !contrasena) {
-    //     errores.all = "Todos los campos son obligatorios";
-    //   }
+      const { nombre, correo, contrasena } = req.body;
+      const errores = validationResult(req);
 
-    //   if (nombre.length < 6) {
-    //     errores.nombre = "La longitud minima del nombre es de 6 caracteres";
-    //   }
+      if (errores.array().length > 0) {
+        res.render("users/register", {
+          errores: errores.mapped(),
+          nombre,
+          correo,
+          contrasena,
+        });
+      } else {
+        users.push({
+          nombre,
+          correo,
+          contrasena,
+        });
 
-    //   if (users.find((user) => user.correo === correo)) {
-    //     errores.correo = "El usuario ya existe";
-    //   }
+        writeFile(directory, stringifyFile(users));
 
-    //   const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,20}$/;
-      
-    //   if (!regex.test(contrasena)) {
-    //     errores.contrasena = "La contraseña debe tener entre 8 y 20 caracteres, incluir una minúscula, una mayúscula, un número y un carácter especial";
-    //   }
-
-    //   if (Object.keys(errores).length > 0) {
-    //     res.render('users/register', {
-    //       errores,
-    //       nombre,
-    //       correo,
-    //       contrasena,
-    //     });
-    //     return;
-    //   }
-
-    //   users.push({
-    //     nombre,
-    //     correo,
-    //     contrasena,
-    //   });
-
-        // fs.writeFileSync(directory, JSON.stringify(users), "utf-8");
-        //   res.send(users);
-        // throw new Error('E-mail already in use');
-        const errors = validationResult(req);
-        res.send(errors)
+        res.redirect("/users/login");
+      }
     } catch (error) {
-        console.log("el error capturado: ",  error);
+      console.log("el error capturado: ", error);
     }
-
-
   },
   profile: (req, res) => {},
 };

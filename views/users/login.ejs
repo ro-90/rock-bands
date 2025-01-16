@@ -1,7 +1,6 @@
 <%- include('../partial/head',{title:"Detalle"}) %>
 <body>
-    <header>
-    </header>
+    <%- include('../partial/header') %>
     <main>
         <form action="/users/login" method="POST">
             <% if(locals.errores) {%>
@@ -21,8 +20,8 @@
             <% if(locals.errores && locals.errores.contrasena) {%>
                 <p><%= errores.contrasena.msg %></p>
             <% } %>
-            
-            <button type="submit">Registrarse</button>
+            <label for="recuerdame">Desea que recordemos su sesion?</label><input type="checkbox" name="recuerdame" id="recuerdame">
+            <button type="submit">Login</button>
         </form>
     </main>
     <footer>

@@ -1,6 +1,7 @@
 const path = require("path");
 const directory = path.join(__dirname, "../db/users.json");
 const { validationResult } = require("express-validator");
+const bcrypt = require("bcrypt");
 const {
   readFile,
   writeFile,
@@ -17,19 +18,28 @@ const usersControllers = {
   processLogin: (req, res, next) => {
     const { correo } = req.body;
     const errores = validationResult(req);
-    if(errores.array().length > 0){
+    if (errores.array().length > 0) {
       res.render("users/login", {
         errores: errores.mapped(),
         correo
       });
-    }else{
+    } else {
       const user = users.find(user => user.correo === correo);
-      const {nombre} = user;
-      req.session.user = {correo, nombre};
-      res.cookie("user", req.session.user, {maxAge: 1000 * 60 * 60 * 12});
+      const { nombre } = user;
+      req.session.user = { correo, nombre };
+      console.log("body",req.body);
+      
+      if (req.body.recuerdame) {
+        res.cookie("user", { correo, nombre }, { maxAge: 1000 * 60 * 30 });
+      }
       res.redirect("/users/profile");
     }
 
+  },
+  logout: (req, res) => {
+    req.session.destroy();
+    res.clearCookie("user");
+    res.redirect("/users/login");
   },
   register: function (req, res, next) {
     res.render("users/register", { title: "registro de usuario" });
@@ -47,21 +57,30 @@ const usersControllers = {
           contrasena,
         });
       } else {
-        users.push({
-          nombre,
-          correo,
-          contrasena,
+
+        bcrypt.hash(contrasena, 10,function(err, hash) {
+          if(err){
+            console.log("error en el hash",err);
+          }
+        
+          users.push({
+            nombre,
+            correo,
+            contrasena:hash
+          });
+
+          writeFile(directory, stringifyFile(users));
+
+          res.redirect("/users/login");
         });
 
-        writeFile(directory, stringifyFile(users));
-
-        res.redirect("/users/login");
+        
       }
     } catch (error) {
       console.log("el error capturado: ", error);
     }
   },
-  profile: (req, res) => {},
+  profile: (req, res) => { },
 };
 
 module.exports = usersControllers;

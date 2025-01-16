@@ -24,10 +24,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
-  secret: "loquesea",
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true }
+  secret: "1234567890",
+  resave: true,
+  saveUninitialized: true
 }))
 
 app.use(sessionVerify);

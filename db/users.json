@@ -1,1 +1,17 @@
-[{"nombre":"Nuevo cliente","correo":"admin@gmail.com","contrasena":"123123"},{"nombre":"Julian Eduardo","correo":"julian_eduardo_aquino@outlook.com","contrasena":"%Xas12fA"},{"nombre":"Adrian","correo":"adrian@gmail.com","contrasena":"%X1234asq"},{"nombre":"Sandro","correo":"sandro@gmail.com","contrasena":"%Xbhasj879a"},{"nombre":"Julian","correo":"julian.eduardo.aquino@gmail.com","contrasena":"%Qweas134"}]
+[
+    {
+        "nombre": "Adrian",
+        "correo": "adrian@gmail.com",
+        "contrasena": "%X1234asq"
+    },
+    {
+        "nombre": "Sandro",
+        "correo": "sandro@gmail.com",
+        "contrasena": "%Xbhasj879a"
+    },
+    {
+        "nombre": "julian",
+        "correo": "julian.eduardo.aquino@gmail.com",
+        "contrasena": "$2b$10$M33A4NyVHf2a4.P8mh7kiOhxaZ/YLqxn.Z8Cq0n6Ipy7CFE8rpvmm"
+    }
+]

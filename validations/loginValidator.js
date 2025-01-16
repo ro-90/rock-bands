@@ -23,6 +23,6 @@ module.exports = [
         if (user.contrasena !== value) {
             throw new Error('Las credenciales no son validas');
         }
-        return true
+        return true;
     }).bail()
 ]

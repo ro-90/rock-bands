@@ -1,0 +1,18 @@
+<header>
+    <h1>Rock Bands</h1>
+    <nav>
+        <ul>
+            <li><a href="/rock-bands">Home</a></li>
+            <li><a href="/rock-bands/bands">Bands</a></li>
+            <li><a href="/rock-bands/bands/new">New Band</a></li>
+        </ul>
+        <ul>
+            <% if (locals.user) { %>
+                <li><a href="/users/profile">Profile</a></li>
+                <li><a href="/users/logout">Logout</a></li>
+            <% } else { %>
+            <li><a href="/users/login">Login</a></li>
+            <% } %>
+        </ul>
+    </nav>
+</header>

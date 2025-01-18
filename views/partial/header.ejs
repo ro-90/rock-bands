@@ -1,12 +1,12 @@
 <header>
-    <h1>Rock Bands</h1>
-    <nav>
-        <ul>
+    <img src="/images/logo.webp" alt="Logo Rock Bands" id="logo-rocks-bands"/>
+    <nav class="header--nav">
+        <ul class="header--nav--left">
             <li><a href="/rock-bands">Home</a></li>
             <li><a href="/rock-bands/bands">Bands</a></li>
             <li><a href="/rock-bands/bands/new">New Band</a></li>
         </ul>
-        <ul>
+        <ul class="header--nav--right">
             <% if (locals.session) { %>
                 <li><a href="/users/profile/<%= session.id %>">Profile</a></li>
                 <li><a href="/users/logout">Logout</a></li>

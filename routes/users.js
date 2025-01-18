@@ -14,7 +14,15 @@ router.get('/logout', logout);
 router.get('/register',register);
 router.post('/register', registerValidator ,store );
 
-router.get('/profile', function(req, res, next) {
+router.get('/profile/:id', profile);
+
+router.put('/profile/:id', function(req, res, next) {
+  console.log("La solicitud de actualizacion:", req.body);
+  
+  res.send('respondio el metodo de actualizacion');
+});
+
+router.delete('/profile/:id', function(req, res, next) {
   res.send('respond with a resource');
 });
 

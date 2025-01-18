@@ -7,8 +7,8 @@
             <li><a href="/rock-bands/bands/new">New Band</a></li>
         </ul>
         <ul>
-            <% if (locals.user) { %>
-                <li><a href="/users/profile">Profile</a></li>
+            <% if (locals.session) { %>
+                <li><a href="/users/profile/<%= session.id %>">Profile</a></li>
                 <li><a href="/users/logout">Logout</a></li>
             <% } else { %>
             <li><a href="/users/login">Login</a></li>

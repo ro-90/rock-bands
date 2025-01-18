@@ -1,12 +1,20 @@
 [
-    {
-        "nombre": "julian",
-        "correo": "julian.eduardo.aquino@gmail.com",
-        "contrasena": "$2b$10$M33A4NyVHf2a4.P8mh7kiOhxaZ/YLqxn.Z8Cq0n6Ipy7CFE8rpvmm"
-    },
-    {
-        "nombre": "Adrian",
-        "correo": "adrian@gmail.com",
-        "contrasena": "$2b$10$2E3BHHrtirqTrZjw9dCgZORuv2A6hOAgRoM.r6ehavY1xGseEvaiW"
-    }
+  {
+    "id": "59e7c239-7c10-438c-b0e0-23c5366c3741",
+    "nombre": "julian",
+    "correo": "julian.eduardo.aquino@gmail.com",
+    "contrasena": "$2b$10$M33A4NyVHf2a4.P8mh7kiOhxaZ/YLqxn.Z8Cq0n6Ipy7CFE8rpvmm"
+  },
+  {
+    "id": "59e7c239-7c10-438c-b0e0-23c5366c3743",
+    "nombre": "Adrian",
+    "correo": "adrian@gmail.com",
+    "contrasena": "$2b$10$2E3BHHrtirqTrZjw9dCgZORuv2A6hOAgRoM.r6ehavY1xGseEvaiW"
+  },
+  {
+    "id": "59e7c239-7c10-438c-b0e0-23c5366c3742",
+    "nombre": "Sandro",
+    "correo": "sandro@gmail.com",
+    "contrasena": "$2b$10$9dcrAsG4z0Ib78dU/GSyKOFny8bWajoiI7mJnDBmK9UTyc2GEJuUK"
+  }
 ]

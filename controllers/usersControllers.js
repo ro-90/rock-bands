@@ -8,7 +8,7 @@ const {
   parseFile,
   stringifyFile,
 } = require("../utils/filesystem");
-
+const { v4: uuidv4 } = require('uuid');
 const users = parseFile(readFile(directory));
 
 const usersControllers = {
@@ -25,14 +25,16 @@ const usersControllers = {
       });
     } else {
       const user = users.find(user => user.correo === correo);
-      const { nombre } = user;
-      req.session.user = { correo, nombre };
+      const { nombre, id } = user;
+      console.log(id);
+      
+      req.session.user = { correo, nombre, id };
       console.log("body",req.body);
       
       if (req.body.recuerdame) {
-        res.cookie("user", { correo, nombre }, { maxAge: 1000 * 60 * 30 });
+        res.cookie("user", { correo, nombre, id }, { maxAge: 1000 * 60 * 30 });
       }
-      res.redirect("/users/profile");
+      res.redirect(`/users/profile/${id}`);
     }
 
   },
@@ -62,8 +64,9 @@ const usersControllers = {
           if(err){
             console.log("error en el hash",err);
           }
-        
+          
           users.push({
+            id:uuidv4(),
             nombre,
             correo,
             contrasena:hash
@@ -80,7 +83,11 @@ const usersControllers = {
       console.log("el error capturado: ", error);
     }
   },
-  profile: (req, res) => { },
+  profile: (req, res) => {
+    const id = req.params.id;
+    const user = users.find(user => user.id === id);
+    res.render("users/profile", { title: "Perfil", user });
+   },
 };
 
 module.exports = usersControllers;

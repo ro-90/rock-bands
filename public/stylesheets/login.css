@@ -1,4 +1,4 @@
-.register--main{
+.login--main{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -6,18 +6,15 @@
     text-align: center;
 }
 
-.register--main h2{
+.login--main h1{
     font-size: 2rem;
     color: var(--color-quinary);
     font-weight: bold;
-    font-style: italic;
     margin-top: 10vh;
     animation: slide-in 2s ease-in-out;
-
 }
 
-
-.register--main h2:hover {
+.login--main h1:hover {
     color: var(--color-quaternary);
     transform: scale(1.1);
     transition: transform 0.5s ease-in-out, color 0.5s ease-in-out, border ease-in-out 0.5s;
@@ -34,7 +31,7 @@
     }
 }
 
-.register--main form{
+.login--main form{
     background-color: var(--color-quinary);
     display: flex;
     flex-direction: column;
@@ -50,7 +47,7 @@
     gap: 20px;
 }
 
-.register--main form div{
+.login--main form div{
     margin-top: 4vh;
     width: 95%;
     display: flex;
@@ -59,8 +56,7 @@
     justify-content: start;
 }
 
-
-.register--main form div:first-child{
+.login--main form div:first-child{
     margin-top: 10vh;
 }
 
@@ -72,11 +68,11 @@
     width: 90%;
 }
 
-.register--main form div label{
+.login--main form div label{
     width: 30%;
 }
 
-.register--main form div input{
+.login--main form div input{
     width: 70%;
     height: 30px;
     border-radius: 5px;
@@ -85,7 +81,7 @@
     padding-left: 10px;
 }
 
-.register--main form div p{
+.login--main form div p{
     width: 100%;
     color: var(--color-quaternary);
     font-size: 1.2rem;
@@ -110,4 +106,3 @@
     transform: scale(1.1);
     transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
-

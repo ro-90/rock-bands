@@ -3,15 +3,17 @@
     <nav class="header--nav">
         <ul class="header--nav--left">
             <li><a href="/rock-bands">Home</a></li>
-            <li><a href="/rock-bands/bands">Bands</a></li>
-            <li><a href="/rock-bands/bands/new">New Band</a></li>
+            <li><a href="/rock-bands/bands">Eventos</a></li>
+            <li><a href="/rock-bands/bands/new">Albums</a></li>
+            <li><a href="/rock-bands/bands/new">Instrumentos</a></li>
+            <li><a href="/rock-bands/bands/new">Parlantes</a></li>
         </ul>
         <ul class="header--nav--right">
             <% if (locals.session) { %>
-                <li><a href="/users/profile/<%= session.id %>">Profile</a></li>
+                <li><img src="/images/profile.webp" alt="imagen de perfil"><a href="/users/profile/<%= session.id %>">Profile</a></li>
                 <li><a href="/users/logout">Logout</a></li>
             <% } else { %>
-            <li><a href="/users/login">Login</a></li>
+            <li><a href="/users/login"><i class="fa-solid fa-right-to-bracket"></i> Login</a></li>
             <% } %>
         </ul>
     </nav>

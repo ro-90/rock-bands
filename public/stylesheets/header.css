@@ -32,6 +32,10 @@
   justify-content: flex-end;
 }
 
+.header--nav--right img{
+  width: 5%;
+}
+
 .header--nav ul li {
   list-style-type: none;
   margin-right: 10px;

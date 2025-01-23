@@ -1,24 +1,18 @@
 <%- include('../partial/head',{title:"Detalle"}) %>
 <body>
     <%- include('../partial/header') %>
-    <main>
+    <main class="login--main">
+        <h1><i class="fa-solid fa-user"></i> Login</h1>
         <form action="/users/login" method="POST">
-            <% if(locals.errores) {%>
-                <p><%= errores.all %></p>
-            <% } %>
 
             <label for="email">Email</label>
             <input type="email" name="correo" id="email" required value="<%= locals.correo ? correo : ""%>" >
             
-            <% if(locals.errores && locals.errores.correo) {%>
-                <p><%= errores.correo.msg %></p>
-            <% } %>
-            
             <label for="password">Contraseña</label>
             <input type="password" name="contrasena" id="password" value="<%= locals.contrasena ? contrasena : ""%>" >
             
-            <% if(locals.errores && locals.errores.contrasena) {%>
-                <p><%= errores.contrasena.msg %></p>
+            <% if(locals.errores) {%>
+                <p> <i class="fa-solid fa-circle-exclamation"></i> Credenciales invalidas</p>
             <% } %>
             <label for="recuerdame">Desea que recordemos su sesion?</label><input type="checkbox" name="recuerdame" id="recuerdame">
             <button type="submit">Login</button>

@@ -4,7 +4,7 @@
   <%- include('../partial/header') %>
   <main class="register--main">
     <h2>Se parte de nuestra comunidad</h2>
-    <form action="/users/register" method="POST">
+    <form action="/users/register" method="post">
       <div>
         <label for="name">Nombre</label>
         <input type="text" name="nombre" id="name" min="6" max="50" value="<%= locals.nombre ? nombre : "" %>">

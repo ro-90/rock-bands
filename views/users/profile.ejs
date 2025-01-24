@@ -2,7 +2,7 @@
 <body>
     <%- include('../partial/header') %>
     <main>
-        <form action="/users/profile/<%=session.id%>?_method=PUT" method="post">
+        <form action="/users/profile/<%=session.id%>?_method=PUT" method="post" enctype="multipart/form-data">
             
             <label for="name">Nombre</label>
             
@@ -79,6 +79,8 @@
             <% if(locals.errores && locals.errores.telefono) {%>
                 <p><%= errores.telefono.msg %></p>
             <% } %>
+
+            <input type="file" name="avatar" id="avatar" accept=".jpg,.png " value="<%= locals.user && locals.user.avatar ? user.avatar : ""%>" >
 
             <button type="submit">Actualizar</button>
         </form>

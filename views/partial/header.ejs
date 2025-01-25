@@ -10,7 +10,7 @@
         </ul>
         <ul class="header--nav--right">
             <% if (locals.session) { %>
-                <li><img src="/images/profile.webp" alt="imagen de perfil"><a href="/users/profile/<%= session.id %>">Profile</a></li>
+                <li><img  src="<%= session.avatar ? `/images/users/${session.avatar}` : "/images/profile.webp" %>" alt="imagen de perfil"><a href="/users/profile/<%= session.id %>">Profile</a></li>
                 <li><a href="/users/logout">Logout</a></li>
             <% } else { %>
             <li><a href="/users/login"><i class="fa-solid fa-right-to-bracket"></i> Login</a></li>

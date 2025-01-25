@@ -9,7 +9,6 @@ const {
   stringifyFile,
 } = require("../utils/filesystem");
 const { v4: uuidv4 } = require("uuid");
-const { log } = require("console");
 
 const usersControllers = {
   login: (req, res, next) => {
@@ -26,14 +25,14 @@ const usersControllers = {
       });
     } else {
       const user = users.find((user) => user.correo === correo);
-      const { nombre, id } = user;
+      const { nombre, id, avatar } = user;
       console.log(id);
 
-      req.session.user = { correo, nombre, id };
+      req.session.user = { correo, nombre, id, avatar };
       console.log("body", req.body);
 
       if (req.body.recuerdame) {
-        res.cookie("user", { correo, nombre, id }, { maxAge: 1000 * 60 * 30 });
+        res.cookie("user", { correo, nombre, id, avatar }, { maxAge: 1000 * 60 * 30 });
       }
       res.redirect(`/users/profile/${id}`);
     }
@@ -88,11 +87,14 @@ const usersControllers = {
     res.render("users/profile", { title: "Perfil", user });
   },
   update: (req, res) => {
+    console.log("file: ", req.file);
+
     const users = parseFile(readFile(directory));
     console.log(req.body);
     const id = req.params.id;
     const user = users.find((user) => user.id === id);
     req.body.id = id;
+    req.body.avatar = req.file ? req.file.filename : user.avatar;
     if(req.body.contrasena && req.body.contrasena2){
       req.body.contrasena = bcrypt.hashSync(req.body.contrasena, 10);
     }else{

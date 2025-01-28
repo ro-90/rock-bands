@@ -46,8 +46,12 @@
             <h2>Dirección</h2>
 
             <label for="provincia">Provincia</label>
-            <input type="text" name="provincia" id="provincia" value="<%= locals.user && locals.user.provincia ? user.provincia : ""%>" >
-            
+            <select name="provincia" id="provincia">
+                <% provincias.forEach(provincia => { %>
+                    <option value="<% provincia.id %>"><%= provincia.nombre%></option>
+                <% }); %>
+            </select>
+
             <% if(locals.errores && locals.errores.provincia) {%>
                 <p><%= errores.provincia.msg %></p>
             <% } %>
@@ -87,4 +91,5 @@
     </main>
     <footer>
     </footer>
+    <script src="/js/profile.js"></script>
 </body>

@@ -88,17 +88,22 @@ const usersControllers = {
       const user = users.find((user) => user.id === id);
       const response = await fetch("https://apis.datos.gob.ar/georef/api/provincias");
       log("response: ", response);
+      
       if (!response.ok) {
         throw new Error("Hubo un problema con la peticion");
       }
       
       const data = await response.json();
-      const provincias = data.provincias;
-      log("provincias: ", provincias);
-      res.render("users/profile", { title: "Perfil", user, provincias });
+      const provincias = data.provincias.sort((a, b) => a.nombre.localeCompare(b.nombre));
+      const idProvincia = user.provincia ? user.provincia : provincias[0].id;
+
+      const responseLocalidades = await fetch(`https://apis.datos.gob.ar/georef/api/localidades?provincia=${idProvincia}&max=500`);
+      const dataLocalidades = await responseLocalidades.json();
+      const localidades = dataLocalidades.localidades.sort((a, b) => a.nombre.localeCompare(b.nombre));
+
+      res.render("users/profile", { title: "Perfil", user, provincias, localidades });
     } catch (error) {
-      console.log("error: ", error);
-      
+      console.log("error: ", error);      
       res.render("error", error);
     }
   },
@@ -106,7 +111,7 @@ const usersControllers = {
     console.log("file: ", req.file);
 
     const users = parseFile(readFile(directory));
-    console.log(req.body);
+    console.log("body:",req.body);
     const id = req.params.id;
     const user = users.find((user) => user.id === id);
     req.body.id = id;
@@ -125,6 +130,16 @@ const usersControllers = {
     writeFile(directory, stringifyFile(users));
     res.send(req.body);
   },
+  deleteUser: (req, res) => {
+    req.session.destroy();
+    res.clearCookie("user");
+    const users = parseFile(readFile(directory));
+    const id = req.params.id;
+    const newUsers = users.filter((user) => user.id !== id);
+    writeFile(directory, stringifyFile(newUsers));
+    res.redirect("/users/register");
+
+  }
 };
 
 module.exports = usersControllers;

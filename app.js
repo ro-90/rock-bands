@@ -11,6 +11,7 @@ const sessionVerify = require('./middleware/sessionVerify');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var bandasRouter = require('./routes/bandas');
+var productsRouter = require('./routes/products');
 
 var app = express();
 
@@ -35,6 +36,7 @@ app.use(sessionVerify);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/bandas', bandasRouter);
+app.use('/products', productsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

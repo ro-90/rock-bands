@@ -1,16 +1,27 @@
+var express = require('express');
+var router = express.Router();
 
+const { list, 
+        detail, 
+        create, 
+        store, 
+        edit, 
+        update, 
+        remove
+    } = require('../controllers/productsController');
 
-//ruta para la creacion de productos
-router.get("/list", function (req, res) {
-    res.send("la vista de listar");
-});
+router.get('/list', list);
 
-router.get("/detalle/:id", productsController.detail);
-//rutas del administrador aplicando middleware
-router.get("/create", productsController.create);
-// router.post("/create", productsController.store);
-router.get("/edit/:id", productsController.edit);
-// router.put("/edit/:id", productsController.update);
-// router.delete("/delete/:id", productsController.destroy);
+router.get('/detail/:id', detail);
 
-module
+router.get('/create', create);
+
+router.post('/create', store);
+
+router.get('/edit/:id', edit);
+
+router.put('/edit/:id', update);
+
+router.delete('/remove/:id', remove);
+
+module.exports = router;

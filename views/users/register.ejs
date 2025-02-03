@@ -1,35 +1,35 @@
-<%- include('../partial/head',{title:"Detalle"}) %>
+<%- include('../partial/head',{title:"Registro"}) %>
+
 <body>
-    <header>
-    </header>
-    <main>
-        <form action="/users/register" method="POST">
-            <% if(locals.errores) {%>
-                <p><%= errores.all %></p>
-            <% } %>
-            <label for="name">Nombre</label>
-            <input type="text" name="nombre" id="name" min="6" max="50" value="<%= locals.nombre ? nombre : "" %>" >
-            <% if(locals.errores) {%>
-                <p><%= errores.nombre %></p>
-            <% } %>
+  <%- include('../partial/header') %>
+  <main class="register--main">
+    <h2>Se parte de nuestra comunidad</h2>
+    <form action="/users/register" method="post">
+      <div>
+        <label for="name">Nombre</label>
+        <input type="text" name="nombre" id="name" min="6" max="50" value="<%= locals.nombre ? nombre : "" %>">
+      </div>
+      <% if(locals.errores && locals.errores.nombre) {%>
+        <p class="msg-error"> <i class="fa-solid fa-circle-exclamation"></i><%= errores.nombre.msg %></p>
+      <% } %>
 
-            <label for="email">Email</label>
-            <input type="email" name="correo" id="email" required value="<%= locals.correo ? correo : ""%>" >
-            
-            <% if(locals.errores) {%>
-                <p><%= errores.correo %></p>
-            <% } %>
-            
-            <label for="password">Contraseña</label>
-            <input type="password" name="contrasena" id="password" value="<%= locals.contrasena ? contrasena : ""%>" >
-            
-            <% if(locals.errores) {%>
-                <p><%= errores.contrasena %></p>
-            <% } %>
+      <div>
+        <label for="email">Email</label>
+        <input type="email" name="correo" id="email" required value="<%= locals.correo ? correo : ""%>">
+      </div>
+      <% if(locals.errores && locals.errores.correo) {%>
+        <p class="msg-error"><i class="fa-solid fa-circle-exclamation"></i><%= errores.correo.msg %></p>
+      <% } %>
 
-            <button type="submit">Registrarse</button>
-        </form>
-    </main>
-    <footer>
-    </footer>
-</body>
+      <div>
+        <label for="password">Contraseña</label>
+        <input type="password" name="contrasena" id="password" value="<%= locals.contrasena ? contrasena : ""%>">
+      </div>
+
+      <% if(locals.errores && locals.errores.contrasena) {%>
+        <p class="msg-error"><i class="fa-solid fa-circle-exclamation"></i><%= errores.contrasena.msg %></p>
+      <% } %>
+
+      <button id="bt-register" type="submit">Registrarse</button>
+    </form>
+  </main>

@@ -1,0 +1,43 @@
+#logo-rocks-bands{
+    width: 10vw;
+    border-radius: 50%;
+    border: 3px solid var(--color-quinary);
+    margin-bottom: 2vh;
+}
+
+.header--nav {
+  background-color: var(--color-secondary);
+  color: var(--color-tertiary);
+  display: flex;
+  flex-direction: row;
+  height: 10vh;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+}
+
+.header--nav ul {
+  font-size: 1rem;
+  font-weight: 700;
+  display: flex;
+  flex-direction: row;
+  width: 40vw;
+}
+
+.header--nav--left {
+  justify-content: flex-start;
+}
+
+.header--nav--right {
+  justify-content: flex-end;
+}
+
+.header--nav--right img{
+  width: 5%;
+}
+
+.header--nav ul li {
+  list-style-type: none;
+  margin-right: 10px;
+  padding: 10px;
+}

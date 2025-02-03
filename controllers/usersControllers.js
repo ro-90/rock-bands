@@ -1,70 +1,114 @@
-const fs = require("fs");
 const path = require("path");
 const directory = path.join(__dirname, "../db/users.json");
-const {validationResult} = require('express-validator');
-const getUsers = () => {
-  return JSON.parse(fs.readFileSync(directory, "utf-8"));
-};
-
+const { validationResult } = require("express-validator");
+const bcrypt = require("bcrypt");
+const {
+  readFile,
+  writeFile,
+  parseFile,
+  stringifyFile,
+} = require("../utils/filesystem");
+const { v4: uuidv4 } = require("uuid");
 
 const usersControllers = {
-  login: (req, res) => {},
+  login: (req, res, next) => {
+    res.render("users/login", { title: "Login" });
+  },
+  processLogin: (req, res, next) => {
+    const { correo } = req.body;
+    const users = parseFile(readFile(directory));
+    const errores = validationResult(req);
+    if (errores.array().length > 0) {
+      res.render("users/login", {
+        errores: errores.mapped(),
+        correo,
+      });
+    } else {
+      const user = users.find((user) => user.correo === correo);
+      const { nombre, id, avatar } = user;
+      console.log(id);
+
+      req.session.user = { correo, nombre, id, avatar };
+      console.log("body", req.body);
+
+      if (req.body.recuerdame) {
+        res.cookie("user", { correo, nombre, id, avatar }, { maxAge: 1000 * 60 * 30 });
+      }
+      res.redirect(`/users/profile/${id}`);
+    }
+  },
+  logout: (req, res) => {
+    req.session.destroy();
+    res.clearCookie("user");
+    res.redirect("/users/login");
+  },
   register: function (req, res, next) {
     res.render("users/register", { title: "registro de usuario" });
   },
   store: function (req, res, next) {
-    // const { nombre, correo, contrasena } = req.body;
-    // const errores = {};
-
     try {
-    //   const users = getUsers();
-      
-    //   if (!nombre || !correo || !contrasena) {
-    //     errores.all = "Todos los campos son obligatorios";
-    //   }
+      const users = parseFile(readFile(directory));
+      const { nombre, correo, contrasena } = req.body;
+      const errores = validationResult(req);
 
-    //   if (nombre.length < 6) {
-    //     errores.nombre = "La longitud minima del nombre es de 6 caracteres";
-    //   }
+      if (errores.array().length > 0) {
+        res.render("users/register", {
+          errores: errores.mapped(),
+          nombre,
+          correo,
+          contrasena,
+        });
+      } else {
+        bcrypt.hash(contrasena, 10, function (err, hash) {
+          if (err) {
+            console.log("error en el hash", err);
+          }
 
-    //   if (users.find((user) => user.correo === correo)) {
-    //     errores.correo = "El usuario ya existe";
-    //   }
+          users.push({
+            id: uuidv4(),
+            nombre,
+            correo,
+            contrasena: hash,
+          });
 
-    //   const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,20}$/;
-      
-    //   if (!regex.test(contrasena)) {
-    //     errores.contrasena = "La contraseña debe tener entre 8 y 20 caracteres, incluir una minúscula, una mayúscula, un número y un carácter especial";
-    //   }
+          writeFile(directory, stringifyFile(users));
 
-    //   if (Object.keys(errores).length > 0) {
-    //     res.render('users/register', {
-    //       errores,
-    //       nombre,
-    //       correo,
-    //       contrasena,
-    //     });
-    //     return;
-    //   }
-
-    //   users.push({
-    //     nombre,
-    //     correo,
-    //     contrasena,
-    //   });
-
-        // fs.writeFileSync(directory, JSON.stringify(users), "utf-8");
-        //   res.send(users);
-        // throw new Error('E-mail already in use');
-        const errors = validationResult(req);
-        res.send(errors)
+          res.redirect("/users/login");
+        });
+      }
     } catch (error) {
-        console.log("el error capturado: ",  error);
+      console.log("el error capturado: ", error);
+    }
+  },
+  profile: (req, res) => {
+    const users = parseFile(readFile(directory));
+    const id = req.params.id;
+    const user = users.find((user) => user.id === id);
+    res.render("users/profile", { title: "Perfil", user });
+  },
+  update: (req, res) => {
+    console.log("file: ", req.file);
+
+    const users = parseFile(readFile(directory));
+    console.log(req.body);
+    const id = req.params.id;
+    const user = users.find((user) => user.id === id);
+    req.body.id = id;
+    req.body.avatar = req.file ? req.file.filename : user.avatar;
+    if(req.body.contrasena && req.body.contrasena2){
+      req.body.contrasena = bcrypt.hashSync(req.body.contrasena, 10);
+    }else{
+      req.body.contrasena = user.contrasena;
     }
 
-
+    delete req.body.contrasena2;
+    
+    const index = users.findIndex((user) => user.id === id);
+    users[index] = req.body;
+    //$2b$10$9dcrAsG4z0Ib78dU/GSyKOFny8bWajoiI7mJnDBmK9UTyc2GEJuUK  
+    writeFile(directory, stringifyFile(users));
+    res.send(req.body);
   },
-  profile: (req, res) => {},
 };
 
 module.exports = usersControllers;

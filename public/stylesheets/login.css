@@ -1,0 +1,108 @@
+.login--main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.login--main h1{
+    font-size: 2rem;
+    color: var(--color-quinary);
+    font-weight: bold;
+    margin-top: 10vh;
+    animation: slide-in 2s ease-in-out;
+}
+
+.login--main h1:hover {
+    color: var(--color-quaternary);
+    transform: scale(1.1);
+    transition: transform 0.5s ease-in-out, color 0.5s ease-in-out, border ease-in-out 0.5s;
+}
+
+@keyframes slide-in {
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.login--main form{
+    background-color: var(--color-quinary);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    color: var(--color-primary);
+    width: 50vw;
+    align-items: center;
+    text-align: start;
+    margin-top: 10vh;
+    font-size: 1.5rem;
+    border-radius: 10px;
+    height: 80vh;
+    gap: 20px;
+}
+
+.login--main form div{
+    margin-top: 4vh;
+    width: 95%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+}
+
+.login--main form div:first-child{
+    margin-top: 10vh;
+}
+
+.msg-error{
+    color: var(--color-secondary);
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-align: end;
+    width: 90%;
+}
+
+.login--main form div label{
+    width: 30%;
+}
+
+.login--main form div input{
+    width: 70%;
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid var(--color-primary);
+    font-size: 1.5rem;
+    padding-left: 10px;
+}
+
+.login--main form div p{
+    width: 100%;
+    color: var(--color-quaternary);
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 10px;
+}
+#bt-register{
+    margin-top: 10vh;
+    background-color: var(--color-secondary);
+    color: var(--color-tertiary);
+    border: 1px solid var(--color-primary);
+    border-radius: 5px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    width: 25vw;
+    padding: 10px;
+}
+
+#bt-register:hover {
+    background-color: var(--color-tertiary);
+    color: var(--color-primary);
+    transform: scale(1.1);
+    transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}

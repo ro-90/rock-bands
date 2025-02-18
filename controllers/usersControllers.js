@@ -9,6 +9,7 @@ const {
   stringifyFile,
 } = require("../utils/filesystem");
 const { v4: uuidv4 } = require("uuid");
+const { log } = require("console");
 
 const usersControllers = {
   login: (req, res, next) => {
@@ -80,35 +81,65 @@ const usersControllers = {
       console.log("el error capturado: ", error);
     }
   },
-  profile: (req, res) => {
+  profile: async (req, res) => {
     const users = parseFile(readFile(directory));
     const id = req.params.id;
-    const user = users.find((user) => user.id === id);
-    res.render("users/profile", { title: "Perfil", user });
+    try {
+      const user = users.find((user) => user.id === id);
+      const response = await fetch("https://apis.datos.gob.ar/georef/api/provincias");
+      log("response: ", response);
+      
+      if (!response.ok) {
+        throw new Error("Hubo un problema con la peticion");
+      }
+      
+      const data = await response.json();
+      const provincias = data.provincias.sort((a, b) => a.nombre.localeCompare(b.nombre));
+      const idProvincia = user.provincia ? user.provincia : provincias[0].id;
+
+      const responseLocalidades = await fetch(`https://apis.datos.gob.ar/georef/api/localidades?provincia=${idProvincia}&max=500`);
+      const dataLocalidades = await responseLocalidades.json();
+      const localidades = dataLocalidades.localidades.sort((a, b) => a.nombre.localeCompare(b.nombre));
+
+      res.render("users/profile", { title: "Perfil", user, provincias, localidades });
+    } catch (error) {
+      console.log("error: ", error);      
+      res.render("error", error);
+    }
   },
   update: (req, res) => {
     console.log("file: ", req.file);
 
     const users = parseFile(readFile(directory));
-    console.log(req.body);
+    console.log("body:",req.body);
     const id = req.params.id;
     const user = users.find((user) => user.id === id);
     req.body.id = id;
     req.body.avatar = req.file ? req.file.filename : user.avatar;
-    if(req.body.contrasena && req.body.contrasena2){
+    if (req.body.contrasena && req.body.contrasena2) {
       req.body.contrasena = bcrypt.hashSync(req.body.contrasena, 10);
-    }else{
+    } else {
       req.body.contrasena = user.contrasena;
     }
 
     delete req.body.contrasena2;
-    
+
     const index = users.findIndex((user) => user.id === id);
     users[index] = req.body;
     //$2b$10$9dcrAsG4z0Ib78dU/GSyKOFny8bWajoiI7mJnDBmK9UTyc2GEJuUK  
     writeFile(directory, stringifyFile(users));
     res.send(req.body);
   },
+  deleteUser: (req, res) => {
+    req.session.destroy();
+    res.clearCookie("user");
+    const users = parseFile(readFile(directory));
+    const id = req.params.id;
+    const newUsers = users.filter((user) => user.id !== id);
+    writeFile(directory, stringifyFile(newUsers));
+    res.redirect("/users/register");
+
+  }
 };
 
 module.exports = usersControllers;

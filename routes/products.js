@@ -29,4 +29,4 @@ router.get("/edit/:id", productsController.edit);
 // router.put("/edit/:id", productsController.update);
 // router.delete("/delete/:id", productsController.destroy);
 
-module
+module.exports = router;
